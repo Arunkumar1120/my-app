@@ -14,11 +14,7 @@ node{
 	          sh "${mvnHome}/bin/mvn sonar:sonar"
 	        }
 	    }
-	   stage('Nexus Image Push'){
-   sh "docker login -u admin -p admin123 3.109.217.180:8083"
-   sh "docker tag hackerarun/myweb:0.0.2 3.109.217.180:8083/arun:1.0.0"
-   sh 'docker push 3.109.217.180:8083/arun:1.0.0'
-   }
+	
    stage('Build Docker Imager'){
    sh 'docker build -t hackerarun/myweb:0.0.2 .'
    }
@@ -35,6 +31,11 @@ node{
 	}catch(error){
 		//  do nothing if there is an exception
 	}
+	      stage('Nexus Image Push'){
+   sh "docker login -u admin -p admin123 3.109.217.180:8083"
+   sh "docker tag hackerarun/myweb:0.0.2 3.109.217.180:8083/arun:1.0.0"
+   sh 'docker push 3.109.217.180:8083/arun:1.0.0'
+   }
    stage('Docker deployment'){
    sh 'docker run -d -p 8090:8080 --name tomcattest hackerarun/myweb:0.0.2' 
    }
