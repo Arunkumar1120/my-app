@@ -35,7 +35,7 @@ node{
    sh "docker login -u admin -p admin123 65.0.104.240:8083"
    sh "docker tag hackerarun/myweb:0.0.2 65.0.104.240:8083/arun:1.0.0"
    sh 'docker push 65.0.104.240:8083/arun:1.0.0'
-   }
+	      }
    stage('Docker deployment'){
    sh 'docker run -d -p 8090:8080 --name tomcattest hackerarun/myweb:0.0.2' 
    }
