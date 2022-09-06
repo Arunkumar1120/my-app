@@ -14,6 +14,11 @@ node{
 	          sh "${mvnHome}/bin/mvn sonar:sonar"
 	        }
 	    }
+	   stage('Nexus Image Push'){
+   sh "docker login -u admin -p admin123 3.109.217.180:8083"
+   sh "docker tag hackerarun/myweb:0.0.2 3.109.217.180:8083/arun:1.0.0"
+   sh 'docker push 3.109.217.180:8083/arun:1.0.0'
+   }
    stage('Build Docker Imager'){
    sh 'docker build -t hackerarun/myweb:0.0.2 .'
    }
@@ -23,11 +28,7 @@ node{
     }
    sh 'docker push hackerarun/myweb:0.0.2'
    }
-   stage('Nexus Image Push'){
-   sh "docker login -u admin -p admin123 3.109.217.180:8083"
-   sh "docker tag hackerarun/myweb:0.0.2 3.109.217.180:8083/arun:1.0.0"
-   sh 'docker push 3.109.217.180:8083/arun:1.0.0'
-   }
+
    stage('Remove Previous Container'){
 	try{
 		sh 'docker rm -f tomcattest'
